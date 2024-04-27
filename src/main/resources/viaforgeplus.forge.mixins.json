@@ -20,6 +20,8 @@
     "network.MixinNetworkManager",
     "network.MixinNetworkManager$5",
     "network.MixinServerData",
-    "packets.MixinC00Handshake"
+    "packets.MixinC00Handshake",
+    "render.MixinLayerArmorBase",
+    "render.MixinModelBiped"
   ]
 }
