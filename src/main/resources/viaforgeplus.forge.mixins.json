@@ -4,7 +4,7 @@
   "refmap": "viaforgeplus.mixins.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "minVersion": "0.7.11",
-  "mixins": [
+  "client": [
     "accessors.MinecraftForgeClientAccessor",
     "block.MixinBlockLadder",
     "block.MixinBlockLilyPad",
@@ -22,5 +22,6 @@
     "network.MixinNetworkManager$5",
     "network.MixinServerData",
     "packets.MixinC00Handshake"
-  ]
+  ],
+  "verbose": true
 }

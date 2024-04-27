@@ -7,9 +7,9 @@ import org.spongepowered.asm.mixin.Mixins;
 
 import java.util.Map;
 
-public class TransformerLoader implements IFMLLoadingPlugin {
+public class MixinLoader implements IFMLLoadingPlugin {
 
-    public TransformerLoader() {
+    public MixinLoader() {
         MixinBootstrap.init();
         Mixins.addConfiguration("viaforgeplus.forge.mixins.json");
         MixinEnvironment.getDefaultEnvironment().setSide(MixinEnvironment.Side.CLIENT);
