@@ -113,11 +113,14 @@ classes.dependsOn(moveResources)
 
 jar {
     manifest.attributes(
+            "FMLCorePlugin": "net.aspw.viaforgeplus.injection.forge.MixinLoader",
+            "FMLCorePluginContainsFMLMod": true,
+            "ForceLoadAsMod": true,
             "MixinConfigs": "viaforgeplus.forge.mixins.json",
+            "ModSide": "CLIENT",
             "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
             "TweakOrder": "0",
-            "FMLCorePluginContainsFMLMod": "net.aspw.viaforgeplus.injection.forge.MixinLoader",
-            "FMLAT": "viaforgeplus_at.cfg"
+            "FMLAT": "viaforgeplus_at.cfg",
     )
 
     enabled = false
