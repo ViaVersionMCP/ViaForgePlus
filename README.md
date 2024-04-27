@@ -4,15 +4,15 @@ Based on
 [ViaForge](https://github.com/ViaVersion/ViaForge)
 
 ## What has changed since ViaForge?
-- 1.14+ 1.5 Block Sneaking Support.
-- 1.13+ Swimming & Crawling Support.
-- 1.20.4, 1.20.5, 1.20.6 Support.
-- Hypixel Connection Fix.
-- Block Break and Place Sound Fix.
-- 1.16+ Drop Item Swing Packet.
-- 1.7.x breaking blocks while using items.
-- 1.9+ Attack Packet Order Fix.
-- LilyPad, Ladder Block Collision Fix.
+- 1.14+ 1.5 Block Sneaking Support
+- 1.13+ Swimming & Crawling Support
+- 1.20.4, 1.20.5, 1.20.6 Support
+- Hypixel Connection Fix
+- Block Break and Place Sound Fix
+- 1.16+ Drop Item Swing Packet
+- 1.7.x breaking blocks while using items
+- 1.9+ Attack Packet Order Fix
+- LilyPad, Ladder Block Collision Fix
 
 ## Contact
 If you encounter any issues, please report them on the
