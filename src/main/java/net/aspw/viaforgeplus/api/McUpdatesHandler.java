@@ -95,11 +95,11 @@ public class McUpdatesHandler extends MinecraftInstance implements Listenable {
                     mc.thePlayer.motionY += (d3 - mc.thePlayer.motionY) * d4;
                 }
 
-                mc.thePlayer.motionY += 0.018d;
+                mc.thePlayer.motionY += 0.016d;
 
                 if (shouldAnimation()) {
-                    mc.thePlayer.motionX *= 1.11F;
-                    mc.thePlayer.motionZ *= 1.11F;
+                    mc.thePlayer.motionX *= 1.08F;
+                    mc.thePlayer.motionZ *= 1.08F;
                 }
             }
         }
