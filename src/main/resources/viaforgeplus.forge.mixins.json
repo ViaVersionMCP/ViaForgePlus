@@ -1,0 +1,26 @@
+{
+  "required": true,
+  "package": "net.aspw.viaforgeplus.injection.forge.mixins",
+  "refmap": "viaforgeplus.mixins.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "minVersion": "0.7.11",
+  "mixins": [
+    "accessors.MinecraftForgeClientAccessor",
+    "block.MixinBlockLadder",
+    "block.MixinBlockLilyPad",
+    "block.MixinWorld",
+    "client.MixinMinecraft",
+    "entity.MixinEntityLivingBase",
+    "entity.MixinEntityPlayer",
+    "entity.MixinEntityPlayerSP",
+    "gui.MixinGuiConnecting",
+    "gui.MixinGuiMultiplayer",
+    "gui.MixinGuiOverlayDebug",
+    "item.MixinItemBlock",
+    "network.MixinGuiConnecting_1",
+    "network.MixinNetworkManager",
+    "network.MixinNetworkManager$5",
+    "network.MixinServerData",
+    "packets.MixinC00Handshake"
+  ]
+}
