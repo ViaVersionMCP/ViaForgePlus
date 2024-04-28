@@ -21,6 +21,7 @@
     "network.MixinNetworkManager$5",
     "network.MixinServerData",
     "packets.MixinC00Handshake",
+    "render.MixinEntityRenderer",
     "render.MixinLayerArmorBase",
     "render.MixinModelBiped"
   ]

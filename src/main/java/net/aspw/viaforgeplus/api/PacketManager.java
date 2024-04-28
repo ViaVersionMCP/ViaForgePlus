@@ -34,9 +34,9 @@ public class PacketManager extends MinecraftInstance implements Listenable {
         else delta = 0.154f;
 
         if (mc.thePlayer.isSneaking())
-            eyeHeight = AnimationUtils.animate(END_HEIGHT, eyeHeight, 2 * delta);
+            eyeHeight = AnimationUtils.animate(END_HEIGHT, eyeHeight, 4 * delta);
         else if (eyeHeight < START_HEIGHT)
-            eyeHeight = AnimationUtils.animate(START_HEIGHT, eyeHeight, 2 * delta);
+            eyeHeight = AnimationUtils.animate(START_HEIGHT, eyeHeight, 4 * delta);
     }
 
     @EventTarget

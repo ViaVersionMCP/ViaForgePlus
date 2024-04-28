@@ -55,10 +55,10 @@ public class McUpdatesHandler extends MinecraftInstance implements Listenable {
             delta = 0.085f;
 
             if (shouldAnimation()) {
-                eyeHeight = AnimationUtils.animate(END_HEIGHT, eyeHeight, 2 * delta);
+                eyeHeight = AnimationUtils.animate(END_HEIGHT, eyeHeight, 4 * delta);
                 doingEyeRot = true;
             } else if (eyeHeight < START_HEIGHT)
-                eyeHeight = AnimationUtils.animate(START_HEIGHT, eyeHeight, 2 * delta);
+                eyeHeight = AnimationUtils.animate(START_HEIGHT, eyeHeight, 4 * delta);
 
             if (eyeHeight >= START_HEIGHT && doingEyeRot)
                 doingEyeRot = false;
