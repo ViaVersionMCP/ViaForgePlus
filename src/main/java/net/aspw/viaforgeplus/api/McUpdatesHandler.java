@@ -1,9 +1,6 @@
 package net.aspw.viaforgeplus.api;
 
-import net.aspw.viaforgeplus.event.EventTarget;
-import net.aspw.viaforgeplus.event.Listenable;
-import net.aspw.viaforgeplus.event.MotionEvent;
-import net.aspw.viaforgeplus.event.PushOutEvent;
+import net.aspw.viaforgeplus.event.*;
 import net.aspw.viaforgeplus.network.MinecraftInstance;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.settings.GameSettings;
@@ -66,7 +63,10 @@ public class McUpdatesHandler extends MinecraftInstance implements Listenable {
             if (eyeHeight >= START_HEIGHT && doingEyeRot)
                 doingEyeRot = false;
         }
+    }
 
+    @EventTarget
+    public void onUpdate(UpdateEvent event) {
         if (ProtocolFixer.newerThanOrEqualsTo1_13()) {
             if (isSwimming()) {
                 if (mc.thePlayer.motionX < -0.4D) {
@@ -95,11 +95,11 @@ public class McUpdatesHandler extends MinecraftInstance implements Listenable {
                     mc.thePlayer.motionY += (d3 - mc.thePlayer.motionY) * d4;
                 }
 
-                mc.thePlayer.motionY += 0.016d;
+                mc.thePlayer.motionY += 0.018d;
 
                 if (shouldAnimation()) {
-                    mc.thePlayer.motionX *= 1.08F;
-                    mc.thePlayer.motionZ *= 1.08F;
+                    mc.thePlayer.motionX *= 1.09F;
+                    mc.thePlayer.motionZ *= 1.09F;
                 }
             }
         }

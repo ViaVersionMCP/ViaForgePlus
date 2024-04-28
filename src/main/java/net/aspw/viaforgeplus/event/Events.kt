@@ -15,4 +15,4 @@ class MotionEvent(
 
 class PacketEvent(val packet: Packet<*>) : CancellableEvent()
 class PushOutEvent : CancellableEvent()
-class TextEvent(var text: String?) : Event()
+class UpdateEvent : Event()
