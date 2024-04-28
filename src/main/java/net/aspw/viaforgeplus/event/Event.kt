@@ -11,6 +11,6 @@ open class CancellableEvent : Event() {
     }
 }
 
-enum class EventState(val stateName: String) {
-    PRE("PRE"), POST("POST")
+enum class EventState {
+    PRE, POST
 }
