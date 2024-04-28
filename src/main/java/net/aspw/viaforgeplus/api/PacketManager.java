@@ -3,10 +3,7 @@ package net.aspw.viaforgeplus.api;
 import net.aspw.viaforgeplus.event.EventTarget;
 import net.aspw.viaforgeplus.event.Listenable;
 import net.aspw.viaforgeplus.event.MotionEvent;
-import net.aspw.viaforgeplus.event.PacketEvent;
 import net.aspw.viaforgeplus.network.MinecraftInstance;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 
 public class PacketManager extends MinecraftInstance implements Listenable {
 
@@ -15,6 +12,8 @@ public class PacketManager extends MinecraftInstance implements Listenable {
 
     @EventTarget
     public void onMotion(MotionEvent event) {
+        mc.leftClickCounter = 0;
+
         float START_HEIGHT = 1.62f;
         float END_HEIGHT;
 
@@ -37,19 +36,6 @@ public class PacketManager extends MinecraftInstance implements Listenable {
             eyeHeight = AnimationUtils.animate(END_HEIGHT, eyeHeight, 4 * delta);
         else if (eyeHeight < START_HEIGHT)
             eyeHeight = AnimationUtils.animate(START_HEIGHT, eyeHeight, 4 * delta);
-    }
-
-    @EventTarget
-    public void onPacket(PacketEvent event) {
-        final Packet<?> packet = event.getPacket();
-
-        if (ProtocolFixer.newerThanOrEqualsTo1_10()) {
-            if (packet instanceof C08PacketPlayerBlockPlacement) {
-                ((C08PacketPlayerBlockPlacement) packet).facingX = 0.5F;
-                ((C08PacketPlayerBlockPlacement) packet).facingY = 0.5F;
-                ((C08PacketPlayerBlockPlacement) packet).facingZ = 0.5F;
-            }
-        }
     }
 
     @Override

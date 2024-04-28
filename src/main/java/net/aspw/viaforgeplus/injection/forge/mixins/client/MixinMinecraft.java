@@ -11,7 +11,6 @@ import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -37,7 +36,7 @@ public abstract class MixinMinecraft {
     public int leftClickCounter;
 
     @Inject(method = "startGame", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;checkGLError(Ljava/lang/String;)V", ordinal = 2, shift = At.Shift.AFTER))
-    private void viaPatch(CallbackInfo callbackInfo) {
+    private void startGame(CallbackInfo callbackInfo) {
         ProtocolInject.INSTANCE.init();
     }
 
@@ -45,8 +44,8 @@ public abstract class MixinMinecraft {
      * @author As_pw
      * @reason Attack Order Packet Fix
      */
-    @Overwrite
-    public void clickMouse() {
+    @Inject(method = "clickMouse", at = @At("HEAD"), cancellable = true)
+    private void clickMouse(CallbackInfo ci) {
         if (this.leftClickCounter <= 0) {
             if (this.objectMouseOver != null && Objects.requireNonNull(this.objectMouseOver.typeOfHit) != MovingObjectPosition.MovingObjectType.ENTITY) {
                 this.thePlayer.swingItem();
@@ -74,6 +73,8 @@ public abstract class MixinMinecraft {
                 }
             }
         }
+
+        ci.cancel();
     }
 
     @Redirect(
@@ -84,12 +85,8 @@ public abstract class MixinMinecraft {
         ProtocolFixer.sendConditionalSwing(this.objectMouseOver);
     }
 
-    /**
-     * @author As_pw
-     * @reason 1.7.x Compatible Fix
-     */
-    @Overwrite
-    private void sendClickBlockToController(boolean leftClick) {
+    @Inject(method = "sendClickBlockToController", at = @At("HEAD"), cancellable = true)
+    private void sendClickBlockToController(boolean leftClick, CallbackInfo ci) {
         if (!leftClick)
             this.leftClickCounter = 0;
 
@@ -108,5 +105,7 @@ public abstract class MixinMinecraft {
                 this.playerController.resetBlockRemoving();
             }
         }
+
+        ci.cancel();
     }
 }

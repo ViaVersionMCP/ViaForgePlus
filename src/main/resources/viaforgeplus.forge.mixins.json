@@ -12,7 +12,6 @@
     "entity.MixinEntityLivingBase",
     "entity.MixinEntityPlayer",
     "entity.MixinEntityPlayerSP",
-    "gui.MixinGuiConnecting",
     "gui.MixinGuiMultiplayer",
     "gui.MixinGuiOverlayDebug",
     "item.MixinItemBlock",

@@ -1,7 +1,5 @@
 package net.aspw.viaforgeplus.event
 
-import net.minecraft.network.Packet
-
 class MotionEvent(
     var x: Double,
     var y: Double,
@@ -13,6 +11,5 @@ class MotionEvent(
     var eventState: EventState = EventState.PRE
 }
 
-class PacketEvent(val packet: Packet<*>) : CancellableEvent()
 class PushOutEvent : CancellableEvent()
 class UpdateEvent : Event()

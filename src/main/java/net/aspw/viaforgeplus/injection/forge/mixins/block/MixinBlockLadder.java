@@ -17,7 +17,7 @@ public abstract class MixinBlockLadder extends Block {
     }
 
     @ModifyConstant(method = "setBlockBoundsBasedOnState", constant = @Constant(floatValue = 0.125F))
-    private float viaPatch(float constant) {
+    private float setBlockBoundsBasedOnState(float constant) {
         if (ProtocolFixer.newerThan1_8())
             return 0.1875F;
         return 0.125F;

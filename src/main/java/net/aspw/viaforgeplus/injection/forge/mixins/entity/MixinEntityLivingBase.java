@@ -16,7 +16,7 @@ public abstract class MixinEntityLivingBase extends Entity {
     }
 
     @ModifyConstant(method = "onLivingUpdate", constant = @Constant(doubleValue = 0.005D))
-    private double viaPatch(double constant) {
+    private double onLivingUpdate(double constant) {
         if (ProtocolFixer.newerThan1_8())
             return 0.003D;
         return 0.005D;

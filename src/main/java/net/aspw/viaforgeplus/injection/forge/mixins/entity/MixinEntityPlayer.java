@@ -49,7 +49,7 @@ public abstract class MixinEntityPlayer extends MixinEntityLivingBase {
      * @reason 1.16+ Item Drop Fix
      */
     @Inject(method = "dropItem", at = @At("HEAD"))
-    private void viaPatch(ItemStack p_dropItem_1_, boolean p_dropItem_2_, boolean p_dropItem_3_, CallbackInfoReturnable<EntityItem> cir) {
+    private void dropItem(ItemStack p_dropItem_1_, boolean p_dropItem_2_, boolean p_dropItem_3_, CallbackInfoReturnable<EntityItem> cir) {
         for (int i = 0; i < this.mainInventory.length; ++i) {
             if (ProtocolFixer.newerThanOrEqualsTo1_16())
                 MinecraftInstance.mc.getNetHandler().addToSendQueue(new C0APacketAnimation());
