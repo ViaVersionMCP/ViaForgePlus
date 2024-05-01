@@ -17,6 +17,8 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.net.InetAddress;
 
+// Set priority 1001 to run after handleConfirmTransaction in client (Default: 1000)
+
 @Mixin(NetworkManager.class)
 public class MixinNetworkManager implements VFNetworkManager {
 

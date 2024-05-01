@@ -17,6 +17,7 @@ ViaForgePlus will not support >= 1.21 due to ViaVersion dropped support Java 8 a
 - 1.9+ Attack Packet Order Fix
 - LilyPad, Ladder Block Collision Fix
 - Enchanced Creative Inventory
+- 1.17+ Transaction Fix
 
 ## Contact
 If you encounter any issues, please report them on the
@@ -33,3 +34,9 @@ GitHub Releases: https://github.com/Aspw-w/ViaForgePlus
 - ViaFabricPlus - https://github.com/ViaVersion/ViaFabricPlus (Includes additional modifications to make the experience better)
 - ViaProxy (App) - https://github.com/ViaVersion/ViaProxy
 - ViaaaS (Proxy) - https://github.com/ViaVersion/ViaaaS
+
+# Contributors
+- Aspw (Owner of ViaForgePlus)
+- ViaVersion
+- ViaMCP
+- toidicakhia (Owner of MinusBounce)

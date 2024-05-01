@@ -58,4 +58,8 @@ public class ProtocolFixer {
     public static boolean newerThanOrEqualsTo1_16() {
         return ProtocolBase.getManager().getTargetVersion().newerThanOrEqualTo(ProtocolVersion.v1_14) && !MinecraftInstance.mc.isIntegratedServerRunning();
     }
+
+    public static boolean newerThanOrEqualsTo1_17() {
+        return ProtocolBase.getManager().getTargetVersion().newerThanOrEqualTo(ProtocolVersion.v1_17) && !MinecraftInstance.mc.isIntegratedServerRunning();
+    }
 }
