@@ -18,7 +18,7 @@ public class MixinS32PacketConfirmTransaction {
     private boolean field_148893_c;
 
     /**
-     * @author As_pw
+     * @author FlorianMichael
      * @reason 1.17+ Transaction Fix
      */
     @Overwrite

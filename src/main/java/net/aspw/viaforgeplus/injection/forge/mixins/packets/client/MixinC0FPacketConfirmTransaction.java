@@ -18,7 +18,7 @@ public class MixinC0FPacketConfirmTransaction {
     private boolean accepted;
 
     /**
-     * @author As_pw
+     * @author FlorianMichael
      * @reason 1.17+ Transaction Fix
      */
     @Overwrite
