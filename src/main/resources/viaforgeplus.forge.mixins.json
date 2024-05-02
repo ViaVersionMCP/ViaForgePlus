@@ -16,6 +16,7 @@
     "gui.MixinGuiOverlayDebug",
     "item.MixinItemBlock",
     "network.MixinGuiConnecting_1",
+    "network.MixinNetHandlerPlayClient",
     "network.MixinNetworkManager",
     "network.MixinNetworkManager$5",
     "network.MixinServerData",

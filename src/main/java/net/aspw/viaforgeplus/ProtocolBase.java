@@ -46,6 +46,8 @@ public class ProtocolBase {
         versions.addAll(ProtocolVersion.getProtocols());
 
         versions.removeIf(i -> i == ProtocolVersion.unknown || i.olderThan(ProtocolVersion.v1_7_2));
+
+        ProtocolFixer.transactionFix1_17();
     }
 
     public void inject(final Channel channel, final VFNetworkManager networkManager) {

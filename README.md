@@ -34,3 +34,9 @@ GitHub Releases: https://github.com/Aspw-w/ViaForgePlus
 - ViaFabricPlus - https://github.com/ViaVersion/ViaFabricPlus (Includes additional modifications to make the experience better)
 - ViaProxy (App) - https://github.com/ViaVersion/ViaProxy
 - ViaaaS (Proxy) - https://github.com/ViaVersion/ViaaaS
+
+# Contributors
+- Aspw (Owner of ViaForgePlus, NightX)
+- ViaVersion
+- ViaMCP
+- toidicakhia (Owner of MinusBounce)
