@@ -12,6 +12,7 @@ ViaForgePlus will not support >= 1.21 due to ViaVersion dropped support Java 8 a
 - 1.20.4, 1.20.5, 1.20.6 Support
 - Hypixel Connection Fix
 - Block Break and Place Sound Fix
+- 1.17+ Transaction Packet Fix
 - 1.16+ Drop Item Swing Packet
 - 1.7.x breaking blocks while using items
 - 1.9+ Attack Packet Order Fix

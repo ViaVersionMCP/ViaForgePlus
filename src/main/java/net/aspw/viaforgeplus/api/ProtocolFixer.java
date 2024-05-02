@@ -39,10 +39,6 @@ public class ProtocolFixer {
         return ProtocolBase.getManager().getTargetVersion().newerThanOrEqualTo(ProtocolVersion.v1_9) && !MinecraftInstance.mc.isIntegratedServerRunning();
     }
 
-    public static boolean newerThanOrEqualsTo1_10() {
-        return ProtocolBase.getManager().getTargetVersion().newerThanOrEqualTo(ProtocolVersion.v1_10) && !MinecraftInstance.mc.isIntegratedServerRunning();
-    }
-
     public static boolean newerThanOrEqualsTo1_13() {
         return ProtocolBase.getManager().getTargetVersion().newerThanOrEqualTo(ProtocolVersion.v1_13) && !MinecraftInstance.mc.isIntegratedServerRunning();
     }
@@ -57,5 +53,9 @@ public class ProtocolFixer {
 
     public static boolean newerThanOrEqualsTo1_16() {
         return ProtocolBase.getManager().getTargetVersion().newerThanOrEqualTo(ProtocolVersion.v1_14) && !MinecraftInstance.mc.isIntegratedServerRunning();
+    }
+
+    public static boolean newerThanOrEqualsTo1_17() {
+        return ProtocolBase.getManager().getTargetVersion().newerThanOrEqualTo(ProtocolVersion.v1_17) && !MinecraftInstance.mc.isIntegratedServerRunning();
     }
 }
