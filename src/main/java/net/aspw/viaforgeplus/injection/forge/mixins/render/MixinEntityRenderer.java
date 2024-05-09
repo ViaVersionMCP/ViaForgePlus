@@ -33,6 +33,6 @@ public class MixinEntityRenderer {
             height = eyeHeight;
         else
             height += (eyeHeight - height) * 0.5f;
-        AnimationUtils.setOverflowEyeHeight(height);
+        AnimationUtils.setAnimatedEyeHeight(height);
     }
 }

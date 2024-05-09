@@ -2,7 +2,7 @@ package net.aspw.viaforgeplus.api
 
 object AnimationUtils {
 
-    private var overflowEyeHeight = 0f
+    private var animatedEyeHeight = 0f
 
     @JvmStatic
     fun animate(target: Float, current: Float, speed: Float): Float {
@@ -31,7 +31,7 @@ object AnimationUtils {
     }
 
     @JvmStatic
-    fun setOverflowEyeHeight(eyeHeight: Float) {
-        overflowEyeHeight = eyeHeight
+    fun setAnimatedEyeHeight(eyeHeight: Float) {
+        animatedEyeHeight = eyeHeight
     }
 }
