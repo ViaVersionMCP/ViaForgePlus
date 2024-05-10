@@ -34,11 +34,6 @@ public class ProtocolBase {
             return;
         }
 
-        final ProtocolVersion version = ProtocolVersion.getProtocol(platform.getGameVersion());
-
-        if (version == ProtocolVersion.unknown)
-            throw new IllegalArgumentException("Unknown Protocol Found (" + platform.getGameVersion() + ")");
-
         manager = new ProtocolBase();
 
         ViaLoader.init(new ViaVersionPlatformImpl(null), new ProtocolVLLoader(platform), new ProtocolVLInjector(), null, ViaBackwardsPlatformImpl::new, ViaRewindPlatformImpl::new, ViaLegacyPlatformImpl::new, null);
@@ -48,8 +43,6 @@ public class ProtocolBase {
         versions.removeIf(i -> i == ProtocolVersion.unknown || i.olderThan(ProtocolVersion.v1_7_2));
 
         ProtocolFixer.doFix();
-
-        throw new IllegalArgumentException("ViaForgePlus Injected");
     }
 
     public void inject(final Channel channel, final VFNetworkManager networkManager) {
