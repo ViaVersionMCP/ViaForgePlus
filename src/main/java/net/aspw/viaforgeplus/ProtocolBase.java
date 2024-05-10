@@ -17,7 +17,6 @@ import net.raphimc.vialoader.netty.CompressionReorderEvent;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class ProtocolBase {
 
@@ -50,7 +49,7 @@ public class ProtocolBase {
 
         ProtocolFixer.doFix();
 
-        Logger.getLogger("ViaVersion Injected!");
+        throw new IllegalArgumentException("ViaForgePlus Injected");
     }
 
     public void inject(final Channel channel, final VFNetworkManager networkManager) {
