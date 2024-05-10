@@ -17,6 +17,7 @@ import net.raphimc.vialoader.netty.CompressionReorderEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class ProtocolBase {
 
@@ -47,7 +48,9 @@ public class ProtocolBase {
 
         versions.removeIf(i -> i == ProtocolVersion.unknown || i.olderThan(ProtocolVersion.v1_7_2));
 
-        ProtocolFixer.transactionFix1_17();
+        ProtocolFixer.doFix();
+
+        Logger.getLogger("ViaVersion Injected!");
     }
 
     public void inject(final Channel channel, final VFNetworkManager networkManager) {

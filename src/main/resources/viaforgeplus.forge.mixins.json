@@ -20,9 +20,7 @@
     "network.MixinNetworkManager",
     "network.MixinNetworkManager$5",
     "network.MixinServerData",
-    "packets.client.MixinC00Handshake",
-    "packets.client.MixinC0FPacketConfirmTransaction",
-    "packets.server.MixinS32PacketConfirmTransaction",
+    "packets.MixinC00Handshake",
     "render.MixinEntityRenderer",
     "render.MixinLayerArmorBase",
     "render.MixinModelBiped"

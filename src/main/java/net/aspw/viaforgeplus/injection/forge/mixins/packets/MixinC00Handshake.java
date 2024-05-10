@@ -1,4 +1,4 @@
-package net.aspw.viaforgeplus.injection.forge.mixins.packets.client;
+package net.aspw.viaforgeplus.injection.forge.mixins.packets;
 
 import net.aspw.viaforgeplus.network.MinecraftInstance;
 import net.minecraft.network.handshake.client.C00Handshake;

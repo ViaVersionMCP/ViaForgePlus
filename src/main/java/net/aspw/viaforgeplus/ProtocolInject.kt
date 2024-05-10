@@ -10,7 +10,7 @@ import net.aspw.viaforgeplus.network.APIConnecter
 
 object ProtocolInject {
 
-    const val modVersion = "1.0.4"
+    const val modVersion = "1.0.5"
 
     lateinit var eventManager: EventManager
 
