@@ -3,10 +3,6 @@ Client-side Implementation of the Via* projects for Minecraft Forge.
 Based on
 [ViaForge](https://github.com/ViaVersion/ViaForge)
 
-## Important information from ViaVersion
-ViaVersion officially dropped support Java 8, so ViaForgePlus can't update to 1.21 until found a solution.
-(Annouced from https://github.com/ViaVersion/ViaVersion/releases/tag/4.10.2)
-
 ## What has changed since ViaForge?
 - 1.14+ 1.5 Block Sneaking Support
 - 1.13+ Swimming & Crawling Support
