@@ -1,4 +1,4 @@
-# ViaForgePlus (Unofficial)
+# ViaForgePlus
 Client-side Implementation of the Via* projects for Minecraft Forge.
 Based on
 [ViaForge](https://github.com/ViaVersion/ViaForge)
