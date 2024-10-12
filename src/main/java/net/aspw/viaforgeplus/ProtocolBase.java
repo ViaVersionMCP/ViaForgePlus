@@ -42,7 +42,7 @@ public class ProtocolBase {
 
         versions.removeIf(i -> i == ProtocolVersion.unknown || i.olderThan(ProtocolVersion.v1_7_2));
 
-        ProtocolFixer.doFix();
+        //ProtocolFixer.doFix();
     }
 
     public void inject(final Channel channel, final VFNetworkManager networkManager) {

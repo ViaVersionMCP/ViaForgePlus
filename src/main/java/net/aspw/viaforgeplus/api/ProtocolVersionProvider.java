@@ -2,7 +2,7 @@ package net.aspw.viaforgeplus.api;
 
 import com.viaversion.viaversion.api.connection.UserConnection;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
-import com.viaversion.viaversion.protocols.base.BaseVersionProvider;
+import com.viaversion.viaversion.protocol.version.BaseVersionProvider;
 import net.aspw.viaforgeplus.ProtocolBase;
 import net.aspw.viaforgeplus.network.MinecraftInstance;
 

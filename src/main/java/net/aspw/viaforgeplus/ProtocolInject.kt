@@ -15,7 +15,6 @@ object ProtocolInject {
     lateinit var eventManager: EventManager
 
     fun init() {
-        ProtocolBase.init(ProtocolMod.PLATFORM)
 
         APIConnecter.checkData()
 
