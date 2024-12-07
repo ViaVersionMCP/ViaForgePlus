@@ -14,7 +14,7 @@ Based on
 - 1.7.x breaking blocks while using items
 - 1.9+ Attack Packet Order Fix
 - LilyPad, Ladder Block Collision Fix
-- Enchanced Creative Inventory
+- Enhanced Creative Inventory
 
 ## Contact
 If you encounter any issues, please report them on the
