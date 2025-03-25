@@ -62,8 +62,9 @@ configurations {
 }
 
 dependencies {
-    include fileTree(dir: "output", include: "*.jar") // See the README file on how to get this folder
+    include fileTree(dir: "output", include: "*.jar")
 
+    include "com.squareup.okhttp3:okhttp:4.9.2"
     include "org.slf4j:slf4j-api:2.0.16"
     include compile ("org.spongepowered:mixin:${project.mixin_version}") {
         exclude module: "launchwrapper"

@@ -20,6 +20,7 @@ import net.aspw.viaforgeplus.common.protocoltranslator.netty.ViaForgeVLLegacyPip
 import net.aspw.viaforgeplus.common.protocoltranslator.platform.VFPViaVersionPlatformImpl;
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
+import net.aspw.viaforgeplus.vfphooks.UpdatesChecker;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -42,6 +43,9 @@ public class CommonViaForgePlus {
 
     private ViaForgeConfig config;
 
+    public static String version = "alphaAntiLeak20";
+    public static boolean isModLatest = false;
+
     public CommonViaForgePlus(VFPlatform platform) {
         this.platform = platform;
     }
@@ -63,6 +67,8 @@ public class CommonViaForgePlus {
 
         final ProtocolVersion configVersion = ProtocolVersion.getClosest(manager.config.getClientSideVersion());
         manager.setTargetVersion(configVersion != null ? configVersion : version);
+
+        UpdatesChecker.check();
     }
 
     public void inject(final Channel channel, final VFPNetworkManager networkManager) {

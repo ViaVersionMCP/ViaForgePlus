@@ -25,17 +25,24 @@ public class SwimmingAnimation {
     @Unique
     private static boolean armFixed = false;
 
+    @Unique
+    private static long lastUpdateTime = System.nanoTime();
+
     public static void handleSwimmingAnimation(ModelRenderer bipedRightArm, ModelRenderer bipedLeftArm, ModelRenderer bipedHead, ModelRenderer bipedHeadwear, float p_setRotationAngles1, float p_setRotationAngles2, float p_setRotationAngles3, float p_setRotationAngles4, float p_setRotationAngles5, float p_setRotationAngles6, Entity p_setRotationAngles7, CallbackInfo callbackInfo) {
+        long currentTime = System.nanoTime();
+        float deltaTime = (currentTime - lastUpdateTime) / 1_000_000_000.0F;
+        lastUpdateTime = currentTime;
+
         boolean isSwimming = VersionDiffPatches.shouldSwimOrCrawl();
 
         float targetRotate = isSwimming ? 10.0F : 0.0F;
         float targetTranslateZ = isSwimming ? -0.16F : 0.0F;
 
-        float targetSwing = isSwimming ? IMinecraft.mc.thePlayer.limbSwing / 3f : 0.0F;
+        float targetSwing = isSwimming ? IMinecraft.mc.thePlayer.limbSwing / 3.0F : 0.0F;
         float targetHeadAngleX = isSwimming ? -0.95F : 0.0F;
 
-        float interpolationSpeed = 0.003F;
-        float swingInterpolationSpeed = 0.007F;
+        float interpolationSpeed = 3.0F * deltaTime;
+        float swingInterpolationSpeed = 7.0F * deltaTime;
 
         viaForgePlus$prevRotateAngle = Interpolation.lerp(viaForgePlus$prevRotateAngle, targetRotate, interpolationSpeed);
         viaForgePlus$prevTranslateZ = Interpolation.lerp(viaForgePlus$prevTranslateZ, targetTranslateZ, interpolationSpeed);

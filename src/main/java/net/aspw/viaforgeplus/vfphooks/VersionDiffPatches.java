@@ -15,19 +15,76 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.Packet;
+import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.client.C0APacketAnimation;
+import net.minecraft.network.play.client.C0EPacketClickWindow;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import java.util.Objects;
 
 public class VersionDiffPatches {
 
-    public static void sendFixedAttack(final EntityPlayer entityIn, final Entity target) {
-        if (CommonViaForgePlus.getManager().getTargetVersion().newerThan(ProtocolVersion.v1_8)) {
+    public static void blockBreakUnderThan1_7Hook(boolean leftClick, CallbackInfo ci) {
+        ci.cancel();
+
+        if (!leftClick)
+            IMinecraft.mc.leftClickCounter = 0;
+
+        if (IMinecraft.mc.leftClickCounter <= 0) {
+            if (leftClick && IMinecraft.mc.objectMouseOver != null && IMinecraft.mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+                BlockPos blockPos = IMinecraft.mc.objectMouseOver.getBlockPos();
+
+                if (IMinecraft.mc.thePlayer.isUsingItem() && (CommonViaForgePlus.getManager().getTargetVersion().newerThanOrEqualTo(ProtocolVersion.v1_8) || IMinecraft.mc.isSingleplayer())) return;
+
+                if (IMinecraft.mc.theWorld.getBlockState(blockPos).getBlock().getMaterial() != Material.air && IMinecraft.mc.playerController.onPlayerDamageBlock(blockPos, IMinecraft.mc.objectMouseOver.sideHit)) {
+                    IMinecraft.mc.effectRenderer.addBlockHitEffects(blockPos, IMinecraft.mc.objectMouseOver.sideHit);
+                    IMinecraft.mc.thePlayer.swingItem();
+                }
+            } else {
+                IMinecraft.mc.playerController.resetBlockRemoving();
+            }
+        }
+    }
+
+    public static void fixedAttackOrder(CallbackInfo ci) {
+        ci.cancel();
+
+        if (IMinecraft.mc.leftClickCounter <= 0) {
+            if (IMinecraft.mc.objectMouseOver != null && Objects.requireNonNull(IMinecraft.mc.objectMouseOver.typeOfHit) != MovingObjectPosition.MovingObjectType.ENTITY) {
+                IMinecraft.mc.thePlayer.swingItem();
+            }
+
+            if (IMinecraft.mc.objectMouseOver != null) {
+                switch (IMinecraft.mc.objectMouseOver.typeOfHit) {
+                    case ENTITY:
+                        sendFixedAttack(IMinecraft.mc.thePlayer, IMinecraft.mc.objectMouseOver.entityHit);
+                        break;
+
+                    case BLOCK:
+                        BlockPos blockpos = IMinecraft.mc.objectMouseOver.getBlockPos();
+
+                        if (IMinecraft.mc.theWorld.getBlockState(blockpos).getBlock().getMaterial() != Material.air) {
+                            IMinecraft.mc.playerController.clickBlock(blockpos, IMinecraft.mc.objectMouseOver.sideHit);
+                            break;
+                        }
+
+                    case MISS:
+                    default:
+                        if (IMinecraft.mc.playerController.isNotCreative()) {
+                            IMinecraft.mc.leftClickCounter = 10;
+                        }
+                }
+            }
+        }
+    }
+
+    private static void sendFixedAttack(final EntityPlayer entityIn, final Entity target) {
+        if (!IMinecraft.mc.isSingleplayer() && CommonViaForgePlus.getManager().getTargetVersion().newerThan(ProtocolVersion.v1_8)) {
             IMinecraft.mc.playerController.attackEntity(entityIn, target);
             IMinecraft.mc.thePlayer.swingItem();
         } else {
@@ -37,14 +94,20 @@ public class VersionDiffPatches {
     }
 
     public static void handlePacket(final Packet<?> packet, final CallbackInfo ci) {
-        if (CommonViaForgePlus.getManager().getTargetVersion().newerThan(ProtocolVersion.v1_8) && packet instanceof C0APacketAnimation) {
+        if (!IMinecraft.mc.isSingleplayer() && CommonViaForgePlus.getManager().getTargetVersion().newerThan(ProtocolVersion.v1_8) && packet instanceof C0APacketAnimation) {
             ci.cancel();
             PacketWrapper fixedC0A = PacketWrapper.create(ServerboundPackets1_9.SWING, Via.getManager().getConnectionManager().getConnections().iterator().next());
             fixedC0A.write(Types.VAR_INT, 0);
             fixedC0A.sendToServer(Protocol1_9To1_8.class);
         }
 
-        if (CommonViaForgePlus.getManager().getTargetVersion().newerThanOrEqualTo(ProtocolVersion.v1_11) && packet instanceof C08PacketPlayerBlockPlacement && ((C08PacketPlayerBlockPlacement) packet).getPlacedBlockDirection() != 255) {
+        if (!IMinecraft.mc.isSingleplayer() && CommonViaForgePlus.getManager().getTargetVersion().newerThanOrEqualTo(ProtocolVersion.v1_16) && (packet instanceof C0EPacketClickWindow && (((C0EPacketClickWindow) packet).getMode() == 4 || ((C0EPacketClickWindow) packet).getSlotId() == -999) || packet instanceof C07PacketPlayerDigging && IMinecraft.mc.thePlayer.getHeldItem() != null && (((C07PacketPlayerDigging) packet).getStatus() == C07PacketPlayerDigging.Action.DROP_ITEM || ((C07PacketPlayerDigging) packet).getStatus() == C07PacketPlayerDigging.Action.DROP_ALL_ITEMS))) {
+            PacketWrapper swingPacket = PacketWrapper.create(ServerboundPackets1_9.SWING, Via.getManager().getConnectionManager().getConnections().iterator().next());
+            swingPacket.write(Types.VAR_INT, 0);
+            swingPacket.sendToServer(Protocol1_9To1_8.class);
+        }
+
+        if (!IMinecraft.mc.isSingleplayer() && CommonViaForgePlus.getManager().getTargetVersion().newerThanOrEqualTo(ProtocolVersion.v1_11) && packet instanceof C08PacketPlayerBlockPlacement && ((C08PacketPlayerBlockPlacement) packet).getPlacedBlockDirection() != 255) {
             ci.cancel();
             PacketWrapper fixedC08 = PacketWrapper.create(ServerboundPackets1_9.USE_ITEM_ON, Via.getManager().getConnectionManager().getConnections().iterator().next());
             fixedC08.write(Types.BLOCK_POSITION1_8, new BlockPosition(((C08PacketPlayerBlockPlacement) packet).getPosition().getX(), ((C08PacketPlayerBlockPlacement) packet).getPosition().getY(), ((C08PacketPlayerBlockPlacement) packet).getPosition().getZ()));
@@ -58,7 +121,7 @@ public class VersionDiffPatches {
     }
 
     public static void pushOutHook(CallbackInfoReturnable<Boolean> cir) {
-        if (shouldSwimOrCrawl() || CommonViaForgePlus.getManager().getTargetVersion().newerThanOrEqualTo(ProtocolVersion.v1_13) && IMinecraft.mc.thePlayer.isSneaking())
+        if (shouldSwimOrCrawl() || !IMinecraft.mc.isSingleplayer() && CommonViaForgePlus.getManager().getTargetVersion().newerThanOrEqualTo(ProtocolVersion.v1_13) && IMinecraft.mc.thePlayer.isSneaking())
             cir.setReturnValue(false);
     }
 
@@ -78,6 +141,6 @@ public class VersionDiffPatches {
         AxisAlignedBB box = IMinecraft.mc.thePlayer.getEntityBoundingBox();
         AxisAlignedBB crawlBB = new AxisAlignedBB(box.minX, box.minY + 0.9, box.minZ, box.minX + 0.6, box.minY + 1.5, box.minZ + 0.6);
 
-        return CommonViaForgePlus.getManager().getTargetVersion().newerThanOrEqualTo(ProtocolVersion.v1_13) && (canSwim() || !IMinecraft.mc.theWorld.getCollisionBoxes(crawlBB).isEmpty());
+        return !IMinecraft.mc.isSingleplayer() && CommonViaForgePlus.getManager().getTargetVersion().newerThanOrEqualTo(ProtocolVersion.v1_13) && (canSwim() || !IMinecraft.mc.theWorld.getCollisionBoxes(crawlBB).isEmpty());
     }
 }

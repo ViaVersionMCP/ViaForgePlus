@@ -1,7 +1,6 @@
 package net.aspw.viaforgeplus.screen;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
-import com.viaversion.vialoader.util.ProtocolVersionList;
 import com.viaversion.viaversion.api.Via;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import com.viaversion.viaversion.util.DumpUtil;
@@ -24,9 +23,6 @@ public class GuiProtocolSelectorScreen extends GuiScreen {
     private final FinishedCallback finishedCallback;
 
     private SlotList list;
-
-    private String status;
-    private long time;
 
     public GuiProtocolSelectorScreen(final GuiScreen parent) {
         this(parent, false, (version, unused) -> {
@@ -77,15 +73,11 @@ public class GuiProtocolSelectorScreen extends GuiScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        if (System.currentTimeMillis() - this.time >= 10_000) {
-            this.status = null;
-        }
-
         list.drawScreen(mouseX, mouseY, partialTicks);
 
         GL11.glPushMatrix();
         GL11.glScalef(2.0F, 2.0F, 2.0F);
-        drawCenteredString(fontRendererObj, ChatFormatting.GOLD + "ViaForgePlus", width / 4, 3, 16777215);
+        drawCenteredString(fontRendererObj, ChatFormatting.GOLD + "ViaForgePlus (" + (CommonViaForgePlus.isModLatest ? "Latest Build" : "Outdated Build") + ")", width / 4, 3, 16777215);
         GL11.glPopMatrix();
 
         drawCenteredString(fontRendererObj, "https://nattogreatapi.pages.dev/ViaForgePlus/", width / 2, (fontRendererObj.FONT_HEIGHT + 2) * 2 + 3, -1);
@@ -101,12 +93,12 @@ public class GuiProtocolSelectorScreen extends GuiScreen {
 
         @Override
         protected int getSize() {
-            return ProtocolVersionList.getProtocolsNewToOld().size();
+            return CommonViaForgePlus.supportedProtocols.size();
         }
 
         @Override
         protected void elementClicked(int index, boolean b, int i1, int i2) {
-            finishedCallback.finished(ProtocolVersionList.getProtocolsNewToOld().get(index), parent);
+            finishedCallback.finished(CommonViaForgePlus.supportedProtocols.get(index), parent);
         }
 
         @Override
@@ -122,7 +114,7 @@ public class GuiProtocolSelectorScreen extends GuiScreen {
         @Override
         protected void drawSlot(int index, int x, int y, int slotHeight, int mouseX, int mouseY) {
             final ProtocolVersion targetVersion = CommonViaForgePlus.getManager().getTargetVersion();
-            final ProtocolVersion version = ProtocolVersionList.getProtocolsNewToOld().get(index);
+            final ProtocolVersion version = CommonViaForgePlus.supportedProtocols.get(index);
 
             String color;
             if (targetVersion == version) {

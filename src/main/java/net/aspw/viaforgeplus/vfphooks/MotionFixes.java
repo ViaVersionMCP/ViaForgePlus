@@ -26,8 +26,8 @@ public class MotionFixes {
 
     public static void handleEyeYHeight() {
         float startHeight = 1.62f;
-        float endHeight = VersionDiffPatches.shouldSwimOrCrawl() ? 0.45f : CommonViaForgePlus.getManager().getTargetVersion().olderThanOrEqualTo(ProtocolVersion.v1_8) ? 1.54f : CommonViaForgePlus.getManager().getTargetVersion().olderThanOrEqualTo(ProtocolVersion.v1_13_2) ? 1.47f : 1.32f;
-        float delta = VersionDiffPatches.shouldSwimOrCrawl() ? 0.085f : CommonViaForgePlus.getManager().getTargetVersion().olderThanOrEqualTo(ProtocolVersion.v1_8) ? 0.154f : CommonViaForgePlus.getManager().getTargetVersion().olderThanOrEqualTo(ProtocolVersion.v1_13_2) ? 0.147f : 0.132f;
+        float endHeight = IMinecraft.mc.isSingleplayer() ? 1.54f : VersionDiffPatches.shouldSwimOrCrawl() ? 0.45f : CommonViaForgePlus.getManager().getTargetVersion().olderThanOrEqualTo(ProtocolVersion.v1_8) ? 1.54f : CommonViaForgePlus.getManager().getTargetVersion().olderThanOrEqualTo(ProtocolVersion.v1_13_2) ? 1.47f : 1.32f;
+        float delta = IMinecraft.mc.isSingleplayer() ? 0.154f : VersionDiffPatches.shouldSwimOrCrawl() ? 0.085f : CommonViaForgePlus.getManager().getTargetVersion().olderThanOrEqualTo(ProtocolVersion.v1_8) ? 0.154f : CommonViaForgePlus.getManager().getTargetVersion().olderThanOrEqualTo(ProtocolVersion.v1_13_2) ? 0.147f : 0.132f;
 
         lastEyeHeight = eyeHeight;
 
@@ -47,7 +47,7 @@ public class MotionFixes {
             IMinecraft.mc.thePlayer.motionY += motionBoost;
         }
 
-        float newHeight = VersionDiffPatches.shouldSwimOrCrawl() ? 0.6f : IMinecraft.mc.thePlayer.isSneaking() && CommonViaForgePlus.getManager().getTargetVersion().olderThanOrEqualTo(ProtocolVersion.v1_8) ? 1.8f : IMinecraft.mc.thePlayer.isSneaking() && CommonViaForgePlus.getManager().getTargetVersion().olderThanOrEqualTo(ProtocolVersion.v1_13_2) ? 1.65f : IMinecraft.mc.thePlayer.isSneaking() ? 1.5f : 1.8f;
+        float newHeight = IMinecraft.mc.isSingleplayer() ? 1.8f : VersionDiffPatches.shouldSwimOrCrawl() ? 0.6f : IMinecraft.mc.thePlayer.isSneaking() && CommonViaForgePlus.getManager().getTargetVersion().olderThanOrEqualTo(ProtocolVersion.v1_8) ? 1.8f : IMinecraft.mc.thePlayer.isSneaking() && CommonViaForgePlus.getManager().getTargetVersion().olderThanOrEqualTo(ProtocolVersion.v1_13_2) ? 1.65f : IMinecraft.mc.thePlayer.isSneaking() ? 1.5f : 1.8f;
 
         double d0 = IMinecraft.mc.thePlayer.width / 2.0;
         AxisAlignedBB box = IMinecraft.mc.thePlayer.getEntityBoundingBox();
@@ -57,7 +57,7 @@ public class MotionFixes {
         IMinecraft.mc.thePlayer.setEntityBoundingBox(fixedBB);
         IMinecraft.mc.thePlayer.height = newHeight;
 
-        if (CommonViaForgePlus.getManager().getTargetVersion().newerThanOrEqualTo(ProtocolVersion.v1_9) && IMinecraft.mc.thePlayer.onGround && !IMinecraft.mc.theWorld.getCollisionBoxes(sneakBB).isEmpty()) {
+        if (!IMinecraft.mc.isSingleplayer() && CommonViaForgePlus.getManager().getTargetVersion().newerThanOrEqualTo(ProtocolVersion.v1_9) && IMinecraft.mc.thePlayer.onGround && !IMinecraft.mc.theWorld.getCollisionBoxes(sneakBB).isEmpty()) {
             IMinecraft.mc.gameSettings.keyBindSneak.pressed = true;
             forceSneaking = true;
         } else if (IMinecraft.mc.theWorld.getCollisionBoxes(sneakBB).isEmpty() && forceSneaking) {
@@ -67,25 +67,29 @@ public class MotionFixes {
         }
     }
 
+    public static String handleHandshake(String constant) {
+        return !IMinecraft.mc.isSingleplayer() ? "" : constant;
+    }
+
     public static double handlePosition() {
-        return CommonViaForgePlus.getManager().getTargetVersion().newerThan(ProtocolVersion.v1_8) ? 0.003 : 0.005;
+        return !IMinecraft.mc.isSingleplayer() && CommonViaForgePlus.getManager().getTargetVersion().newerThan(ProtocolVersion.v1_8) ? 0.003 : 0.005;
     }
 
     public static float handleLadder() {
-        return CommonViaForgePlus.getManager().getTargetVersion().newerThan(ProtocolVersion.v1_8) ? 0.1875f : 0.125f;
+        return !IMinecraft.mc.isSingleplayer() && CommonViaForgePlus.getManager().getTargetVersion().newerThan(ProtocolVersion.v1_8) ? 0.1875f : 0.125f;
     }
 
     public static void handleLilyPad(BlockPos p_getCollisionBoundingBox_2_, CallbackInfoReturnable<AxisAlignedBB> cir) {
-        if (CommonViaForgePlus.getManager().getTargetVersion().newerThan(ProtocolVersion.v1_8))
+        if (!IMinecraft.mc.isSingleplayer() && CommonViaForgePlus.getManager().getTargetVersion().newerThan(ProtocolVersion.v1_8))
             cir.setReturnValue(new AxisAlignedBB((double) p_getCollisionBoundingBox_2_.getX() + 0.0625D, (double) p_getCollisionBoundingBox_2_.getY() + 0.0D, (double) p_getCollisionBoundingBox_2_.getZ() + 0.0625D, (double) p_getCollisionBoundingBox_2_.getX() + 0.9375D, (double) p_getCollisionBoundingBox_2_.getY() + 0.09375D, (double) p_getCollisionBoundingBox_2_.getZ() + 0.9375D));
     }
 
     public static float handleHitBoxSize() {
-        return CommonViaForgePlus.getManager().getTargetVersion().newerThan(ProtocolVersion.v1_8) ? 0f : 0.1f;
+        return !IMinecraft.mc.isSingleplayer() && CommonViaForgePlus.getManager().getTargetVersion().newerThan(ProtocolVersion.v1_8) ? 0f : 0.1f;
     }
 
     public static void handleBlockDestroySound(BlockPos p_destroyBlock_1_, boolean p_destroyBlock_2_, CallbackInfoReturnable<Boolean> cir) {
-        if (CommonViaForgePlus.getManager().getTargetVersion().newerThan(ProtocolVersion.v1_8)) {
+        if (!IMinecraft.mc.isSingleplayer() && CommonViaForgePlus.getManager().getTargetVersion().newerThan(ProtocolVersion.v1_8)) {
             IBlockState iblockstate = IMinecraft.mc.theWorld.getBlockState(p_destroyBlock_1_);
             Block block = iblockstate.getBlock();
 
@@ -127,7 +131,7 @@ public class MotionFixes {
                     shadowBlock.onBlockPlacedBy(p_onItemUse_3_, p_onItemUse_4_, iblockstate1, p_onItemUse_2_, p_onItemUse_1_);
                 }
 
-                if (CommonViaForgePlus.getManager().getTargetVersion().newerThan(ProtocolVersion.v1_8)) {
+                if (!IMinecraft.mc.isSingleplayer() && CommonViaForgePlus.getManager().getTargetVersion().newerThan(ProtocolVersion.v1_8)) {
                     IMinecraft.mc.theWorld.playSoundAtPos(p_onItemUse_4_.add(0.5, 0.5, 0.5), shadowBlock.stepSound.getPlaceSound(), (shadowBlock.stepSound.getVolume() + 1.0F) / 2.0F, shadowBlock.stepSound.getFrequency() * 0.8F, false);
                 } else {
                     p_onItemUse_3_.playSoundEffect((float) p_onItemUse_4_.getX() + 0.5F, (float) p_onItemUse_4_.getY() + 0.5F, (float) p_onItemUse_4_.getZ() + 0.5F, shadowBlock.stepSound.getPlaceSound(), (shadowBlock.stepSound.getVolume() + 1.0F) / 2.0F, shadowBlock.stepSound.getFrequency() * 0.8F);
