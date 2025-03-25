@@ -1,5 +1,4 @@
 # eclipse
-eclipse
 bin
 *.launch
 .settings
@@ -9,7 +8,6 @@ bin
 
 # idea
 out
-classes
 *.ipr
 *.iws
 *.iml
@@ -19,11 +17,14 @@ classes
 build
 .gradle
 
-#Netbeans
-.nb-gradle
-.nb-gradle-properties
-
 # other
+eclipse
 run
-.DS_Store
-Thumbs.db
+
+# Files from Forge MDK
+forge*changelog.txt
+
+# downgraded binaries
+downloads/
+output/
+JavaDowngrader-Standalone-1.1.2.jar
