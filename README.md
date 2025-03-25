@@ -12,7 +12,7 @@ If you encounter any issues, please report them on the
 
 ## For users
 ### Where can I download the latest version?
-GitHub Releases: https://github.com/Aspw-w/ViaForgePlus
+GitHub Releases: https://github.com/Aspw-w/ViaForgePlus/releases
 
 ## Other ViaVersion Mods / Platforms
 - ViaFabric - https://modrinth.com/mod/viafabric
