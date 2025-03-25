@@ -1,15 +1,40 @@
-plugins {
-    id "java"
-    id "idea"
-    id "org.jetbrains.kotlin.jvm"
-    id "com.github.johnrengelman.shadow" version "6.1.0"
-    id "net.minecraftforge.gradle.forge"
-    id "org.spongepowered.mixin"
-    id "maven-publish"
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url = "https://maven.minecraftforge.net/"
+        }
+        maven {
+            url = "https://repo.spongepowered.org/repository/maven-public/"
+        }
+        maven {
+            url = "https://repo.viaversion.com"
+        }
+        maven {
+            url = "https://jitpack.io/"
+        }
+    }
+
+    dependencies {
+        classpath "net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT"
+        classpath "org.spongepowered:mixingradle:0.6-SNAPSHOT"
+        classpath "com.github.johnrengelman:shadow:4.0.4"
+    }
 }
 
+apply plugin: "java"
+apply plugin: "idea"
+apply plugin: "net.minecraftforge.gradle.forge"
+apply plugin: "org.spongepowered.mixin"
+apply plugin: "com.github.johnrengelman.shadow"
+
+group = project.maven_group
+archivesBaseName = project.maven_name
+version = project.maven_version
+
+compileJava.options.encoding = "UTF-8"
+
 repositories {
-    mavenLocal()
     mavenCentral()
     maven { url = "https://maven.minecraftforge.net/" }
     maven { url = "https://repo.spongepowered.org/repository/maven-public/" }
@@ -17,141 +42,81 @@ repositories {
     maven { url = "https://jitpack.io/" }
 }
 
-archivesBaseName = project.archives_base_name
-version = project.mod_version
-group = project.maven_group
-
-sourceCompatibility = targetCompatibility = 1.8
-compileJava.options.encoding = "UTF-8"
-
-compileKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-
 minecraft {
     version = "1.8.9-11.15.1.2318-1.8.9"
     runDir = "run"
     mappings = "stable_22"
     makeObfSourceJar = false
-    clientJvmArgs += ["-Dfml.coreMods.load=net.aspw.viaforgeplus.injection.forge.MixinLoader", "-Ddev-mode"]
+    clientJvmArgs += ["-Dfml.coreMods.load=net.aspw.viaforgeplus.mixin.MixinLoader"]
+}
+
+sourceSets {
+    main.java.srcDirs += 'src/main/java'
+    main.java.srcDirs += '../shared/main/java'
+    main.resources.srcDirs += '../shared/main/resources'
 }
 
 configurations {
     include
     implementation.extendsFrom(include)
-
-    external
-    compile.extendsFrom(external)
-
-    runtimeOnly.canBeResolved = true
 }
 
 dependencies {
-    include("org.spongepowered:mixin:${project.mixin_version}") {
-        transitive = false
-        exclude module: "guava"
-        exclude module: "commons-io"
-        exclude module: "gson"
+    include fileTree(dir: "output", include: "*.jar") // See the README file on how to get this folder
+
+    include "org.slf4j:slf4j-api:2.0.16"
+    include compile ("org.spongepowered:mixin:${project.mixin_version}") {
         exclude module: "launchwrapper"
-        exclude module: "log4j-core"
-        exclude module: "slf4j-api"
     }
-
-    include "org.slf4j:slf4j-api:${project.slf4j_version}"
-    include "org.yaml:snakeyaml:${project.snake_yml_version}"
-
-    include "com.squareup.okhttp3:okhttp:${project.okhttp_version}"
-
-    annotationProcessor("org.spongepowered:mixin:${project.mixin_version}")
-
-    include "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 
-shadowJar {
-    archiveClassifier.set("")
-    configurations = [project.configurations.include]
-    duplicatesStrategy DuplicatesStrategy.EXCLUDE
-
-    exclude "LICENSE.txt"
-
-    exclude "META-INF/maven/**"
-    exclude "META-INF/versions/**"
-
-    exclude "org/apache/**"
-    exclude "org/junit/**"
-}
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 processResources {
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-
-    filesMatching("mcmod.info") {
-        expand "version": project.version, "mcversion": project.minecraft.version
+    from(sourceSets.main.resources.srcDirs) {
+        exclude "mcmod.info"
     }
 
-    rename "(.+_at.cfg)", "META-INF/\$1"
+    rename '(.+_at.cfg)', 'META-INF/$1'
 }
 
-tasks.register('moveResources') {
-    doLast {
-        "${buildDir}/classes/java"
-    }
+mixin {
+    add sourceSets.main, "mixins.${maven_name}.refmap.json"
 }
-
-moveResources.dependsOn(processResources)
-classes.dependsOn(moveResources)
 
 jar {
     manifest.attributes(
-            "FMLCorePlugin": "net.aspw.viaforgeplus.injection.forge.MixinLoader",
-            "FMLCorePluginContainsFMLMod": true,
-            "ForceLoadAsMod": true,
-            "MixinConfigs": "viaforgeplus.forge.mixins.json",
-            "ModSide": "CLIENT",
+            "MixinConfigs": "mixins.${maven_name}.json",
             "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
-            "TweakOrder": "0",
+            "TweakOrder": 0,
+            "FMLCorePlugin": "net.aspw.viaforgeplus.mixin.MixinLoader",
+            "FMLCorePluginContainsFMLMod": "true",
+            "ForceLoadAsMod": "true",
             "FMLAT": "viaforgeplus_at.cfg",
     )
 
     enabled = false
 }
 
-mixin {
-    disableRefMapWarning = true
-    defaultObfuscationEnv searge
-    add sourceSets.main, "viaforgeplus.mixins.refmap.json"
+idea {
+    module {
+        inheritOutputDirs = true
+    }
+}
+
+shadowJar {
+    archiveName = jar.archiveName
+    configurations = [project.configurations.include] // Include the dependencies from the include configuration
+    duplicatesStrategy DuplicatesStrategy.EXCLUDE
+
+    // Prevent conflicts with Forge's weird service loading
+    exclude("META-INF/maven/**")
+    exclude("META-INF/versions/**")
 }
 
 reobf {
-    shadowJar {
-        mappingType = "SEARGE"
-    }
+    shadowJar {}
 }
 
 jar.dependsOn("shadowJar")
-
-configurations {
-    compileClasspath {
-        attributes.attribute(Attribute.of("org.gradle.jvm.environment", String), "standard-jvm")
-    }
-    include {
-        attributes.attribute(Attribute.of("org.gradle.jvm.environment", String), "standard-jvm")
-    }
-}
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-            groupId = group
-            artifactId = archivesBaseName
-            version = version
-
-            from components.java
-        }
-    }
-}
-
-tasks.reobfShadowJar.mustRunAfter shadowJar
-tasks.reobfJar.dependsOn(shadowJar)
