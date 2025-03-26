@@ -43,7 +43,7 @@ public class CommonViaForgePlus {
 
     private ViaForgeConfig config;
 
-    public static String version = "alphaAntiLeak20";
+    public static String version = "alphaAntiLeak21";
     public static boolean isModLatest = false;
 
     public CommonViaForgePlus(VFPlatform platform) {

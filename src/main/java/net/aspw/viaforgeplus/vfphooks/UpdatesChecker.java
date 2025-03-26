@@ -5,18 +5,13 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.cert.X509Certificate;
 
 public class UpdatesChecker {
 
     public static void check() {
         try {
-            OldJvTLSPatcher tlsPatcher = new OldJvTLSPatcher();
+            OldJVTLSPatcher tlsPatcher = new OldJVTLSPatcher();
 
             tlsPatcher.patchTLS();
 

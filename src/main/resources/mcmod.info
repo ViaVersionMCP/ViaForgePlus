@@ -3,7 +3,7 @@
     "modid": "viaforgeplus",
     "name": "ViaForgePlus",
     "description": "Client-side Implementation of the Via* projects for Minecraft Forge",
-    "version": "2.0",
+    "version": "2.1",
     "mcversion": "1.8.9",
     "url": "https://nattogreatapi.pages.dev/ViaForgePlus/",
     "authorList": [

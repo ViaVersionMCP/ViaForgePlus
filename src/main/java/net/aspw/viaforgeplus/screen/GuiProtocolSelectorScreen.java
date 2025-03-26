@@ -40,10 +40,6 @@ public class GuiProtocolSelectorScreen extends GuiScreen {
     public void initGui() {
         super.initGui();
         buttonList.add(new GuiButton(1, 5, height - 25, 20, 20, "<-"));
-        if (!this.simple) {
-            buttonList.add(new GuiButton(2, width - 105, height - 25, 100, 20, "Reload configs"));
-        }
-
         list = new SlotList(mc, width, height, 3 + 3 + (fontRendererObj.FONT_HEIGHT + 2) * 3, height - 30, fontRendererObj.FONT_HEIGHT + 2);
     }
 
@@ -53,8 +49,6 @@ public class GuiProtocolSelectorScreen extends GuiScreen {
 
         if (button.id == 1) {
             mc.displayGuiScreen(parent);
-        } else if (button.id == 2) {
-            Via.getManager().getConfigurationProvider().reloadConfigs();
         }
     }
 

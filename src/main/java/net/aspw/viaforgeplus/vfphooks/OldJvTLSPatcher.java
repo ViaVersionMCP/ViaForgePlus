@@ -6,7 +6,7 @@ import javax.net.ssl.X509TrustManager;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
 
-public class OldJvTLSPatcher {
+public class OldJVTLSPatcher {
 
     public final TrustManager[] trustAllCerts = new TrustManager[]{
         new X509TrustManager() {
@@ -25,7 +25,7 @@ public class OldJvTLSPatcher {
 
     public final SSLContext sslContext;
 
-    public OldJvTLSPatcher() throws Exception {
+    public OldJVTLSPatcher() throws Exception {
         sslContext = SSLContext.getInstance("TLS");
     }
 

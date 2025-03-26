@@ -29,14 +29,15 @@ public class OldServerPingerMixin {
 
     @Redirect(method = "ping", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/NetworkManager;createNetworkManagerAndConnect(Ljava/net/InetAddress;IZ)Lnet/minecraft/network/NetworkManager;"))
     public NetworkManager trackVersion(InetAddress address, int i, boolean b) {
-        ProtocolVersion version = ((ExtendedServerData) viaForgePlus$serverData).viaForgePlus$getVersion();
-        if (version == null) {
-            version = CommonViaForgePlus.getManager().getTargetVersion();
+        if (viaForgePlus$serverData != null) {
+            ProtocolVersion version = ((ExtendedServerData) viaForgePlus$serverData).viaForgePlus$getVersion();
+            if (version == null) {
+                version = CommonViaForgePlus.getManager().getTargetVersion();
+            }
+            VersionTracker.storeServerProtocolVersion(address, version);
+            viaForgePlus$serverData = null;
         }
-        VersionTracker.storeServerProtocolVersion(address, version);
-        viaForgePlus$serverData = null;
 
         return NetworkManager.createNetworkManagerAndConnect(address, i, b);
     }
-
 }

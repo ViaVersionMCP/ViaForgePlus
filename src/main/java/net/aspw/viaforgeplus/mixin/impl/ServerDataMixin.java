@@ -48,5 +48,4 @@ public class ServerDataMixin implements ExtendedServerData {
     public void viaForgePlus$setVersion(ProtocolVersion version) {
         viaForgePlus$version = version;
     }
-
 }
