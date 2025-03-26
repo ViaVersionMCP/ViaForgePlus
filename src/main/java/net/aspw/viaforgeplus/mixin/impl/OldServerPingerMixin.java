@@ -22,19 +22,32 @@ public class OldServerPingerMixin {
     @Unique
     private ServerData viaForgePlus$serverData;
 
-    @Inject(method = "ping", at = @At("HEAD"))
+    @Inject(method = "ping", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/NetworkManager;createNetworkManagerAndConnect(Ljava/net/InetAddress;IZ)Lnet/minecraft/network/NetworkManager;"))
     public void trackServerData(ServerData server, CallbackInfo ci) {
         viaForgePlus$serverData = server;
     }
 
     @Redirect(method = "ping", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/NetworkManager;createNetworkManagerAndConnect(Ljava/net/InetAddress;IZ)Lnet/minecraft/network/NetworkManager;"))
     public NetworkManager trackVersion(InetAddress address, int i, boolean b) {
-        if (viaForgePlus$serverData != null) {
-            ProtocolVersion version = ((ExtendedServerData) viaForgePlus$serverData).viaForgePlus$getVersion();
-            if (version == null) {
-                version = CommonViaForgePlus.getManager().getTargetVersion();
+        try {
+            if (viaForgePlus$serverData != null) {
+                ProtocolVersion version = null;
+
+                if (viaForgePlus$serverData instanceof ExtendedServerData) {
+                    version = ((ExtendedServerData) viaForgePlus$serverData).viaForgePlus$getVersion();
+                }
+
+                if (version == null) {
+                    version = CommonViaForgePlus.getManager().getTargetVersion();
+                }
+
+                if (address != null) {
+                    VersionTracker.storeServerProtocolVersion(address, version);
+                }
             }
-            VersionTracker.storeServerProtocolVersion(address, version);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
             viaForgePlus$serverData = null;
         }
 
