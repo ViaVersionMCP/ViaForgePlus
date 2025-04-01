@@ -6,7 +6,7 @@ import java.io.File;
 
 public interface VFPlatform {
 
-    String VERSION = "3.10.0";
+    String VERSION = "4.1.0";
 
     int getGameVersion();
 

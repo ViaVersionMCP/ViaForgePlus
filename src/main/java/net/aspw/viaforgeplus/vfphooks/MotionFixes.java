@@ -1,5 +1,6 @@
 package net.aspw.viaforgeplus.vfphooks;
 
+import com.viaversion.viaversion.api.Via;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import net.aspw.viaforgeplus.IMinecraft;
 import net.aspw.viaforgeplus.common.CommonViaForgePlus;
@@ -16,6 +17,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import java.util.logging.Level;
 
 public class MotionFixes {
 
