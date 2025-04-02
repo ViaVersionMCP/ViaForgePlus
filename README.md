@@ -1,7 +1,5 @@
 # ViaForgePlus
-Client-side Implementation of the Via* projects for Minecraft Forge.
-Based on
-[ViaForge](https://github.com/ViaVersion/ViaForge)
+Client-side Implementation of the Via* projects for Minecraft Forge. Based on [ViaForge](https://github.com/ViaVersion/ViaForge)
 
 ## What has changed since ViaForge?
 Hypixel connection fixes, 1.5 block sneak support, etc.
@@ -27,5 +25,4 @@ GitHub Releases: https://github.com/Aspw-w/ViaForgePlus/releases
 - toidicakhia
 
 # Beware of fakes
-https://www.mcmod.cn/author/32100.html <- This page is an impostor of me
-Also, I'm not Chinese, so I don't haunt dangerous sites like this
+https://www.mcmod.cn/author/32100.html <- This page is an impostor of me. Also, I'm not Chinese, so I don't haunt dangerous sites like this
