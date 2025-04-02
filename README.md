@@ -28,3 +28,4 @@ GitHub Releases: https://github.com/Aspw-w/ViaForgePlus/releases
 
 # Beware of fakes
 https://www.mcmod.cn/author/32100.html <- This page is an impostor of me
+Also, I'm not Chinese, so I don't haunt dangerous sites like this
