@@ -24,8 +24,7 @@ public class NetHandlerLoginClientMixin {
 
     @Redirect(method = "handleEncryptionRequest", at = @At(value = "INVOKE", target = "Lcom/mojang/authlib/minecraft/MinecraftSessionService;joinServer(Lcom/mojang/authlib/GameProfile;Ljava/lang/String;Ljava/lang/String;)V"))
     public void onlyJoinServerIfPremium(MinecraftSessionService instance, GameProfile profile, String authenticationToken, String serverId) throws AuthenticationException {
-        final VFPNetworkManager mixinNetworkManager = (VFPNetworkManager) networkManager;
-        if (mixinNetworkManager.viaForgePlus$getTrackedVersion().olderThanOrEqualTo(LegacyProtocolVersion.r1_6_4)) {
+        if (CommonViaForgePlus.getManager().getTargetVersion().olderThanOrEqualTo(LegacyProtocolVersion.r1_6_4)) {
             final UserConnection user = networkManager.channel().attr(CommonViaForgePlus.LOCAL_VIA_USER).get();
             if (user != null && user.has(ProtocolMetadataStorage.class) && !user.get(ProtocolMetadataStorage.class).authenticate) {
                 return;

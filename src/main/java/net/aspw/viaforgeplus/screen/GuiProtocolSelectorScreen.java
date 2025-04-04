@@ -87,12 +87,12 @@ public class GuiProtocolSelectorScreen extends GuiScreen {
 
         @Override
         protected int getSize() {
-            return CommonViaForgePlus.supportedProtocols.size();
+            return ProtocolVersion.getProtocols().size();
         }
 
         @Override
         protected void elementClicked(int index, boolean b, int i1, int i2) {
-            finishedCallback.finished(CommonViaForgePlus.supportedProtocols.get(index), parent);
+            finishedCallback.finished(ProtocolVersion.getProtocols().get(index), parent);
         }
 
         @Override
@@ -108,7 +108,7 @@ public class GuiProtocolSelectorScreen extends GuiScreen {
         @Override
         protected void drawSlot(int index, int x, int y, int slotHeight, int mouseX, int mouseY) {
             final ProtocolVersion targetVersion = CommonViaForgePlus.getManager().getTargetVersion();
-            final ProtocolVersion version = CommonViaForgePlus.supportedProtocols.get(index);
+            final ProtocolVersion version = ProtocolVersion.getProtocols().get(index);
 
             String color;
             if (targetVersion == version) {

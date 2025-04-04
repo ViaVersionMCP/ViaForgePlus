@@ -8,6 +8,7 @@
     "BlockLadderMixin",
     "BlockLilyPadMixin",
     "BulkChunkTypeMixin",
+    "C0FPacketConfirmTransactionMixin",
     "C00HandShakeMixin",
     "ChunkTypeMixin",
     "EntityLivingBaseMixin",
@@ -15,7 +16,6 @@
     "EntityPlayerMixin",
     "EntityPlayerSPMixin",
     "EntityRendererMixin",
-    "GuiConnecting_1Mixin",
     "GuiDownloadTerrainMixin",
     "GuiMultiplayerMixin",
     "GuiOverlayDebugMixin",
@@ -28,7 +28,6 @@
     "NetHandlerPlayClientMixin",
     "NetworkManager_5Mixin",
     "NetworkManagerMixin",
-    "OldServerPingerMixin",
     "ServerDataMixin",
     "WorldMixin"
   ],

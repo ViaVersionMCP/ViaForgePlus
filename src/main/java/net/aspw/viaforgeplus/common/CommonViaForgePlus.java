@@ -35,11 +35,9 @@ public class CommonViaForgePlus {
 
     private static CommonViaForgePlus manager;
     private static ViaForgePlus vfp;
-    public static List<ProtocolVersion> supportedProtocols = new ArrayList<>();
 
     private final VFPlatform platform;
     private ProtocolVersion targetVersion;
-    private ProtocolVersion previousVersion;
 
     private ViaForgeConfig config;
 
@@ -52,9 +50,6 @@ public class CommonViaForgePlus {
 
     public static void init(final VFPlatform platform) {
         final ProtocolVersion version = ProtocolVersion.getProtocol(platform.getGameVersion());
-        final List<ProtocolVersion> protocolVersionList = ProtocolVersion.getProtocols();
-
-        supportedProtocols.addAll(protocolVersionList.stream().filter(protocolVersion -> protocolVersion != ProtocolVersion.unknown).collect(Collectors.toList()));
 
         manager = new CommonViaForgePlus(platform);
         vfp = new ViaForgePlus();
@@ -72,7 +67,7 @@ public class CommonViaForgePlus {
     }
 
     public void inject(final Channel channel, final VFPNetworkManager networkManager) {
-        if (networkManager.viaForgePlus$getTrackedVersion().equals(getNativeVersion())) return;
+        if (getTargetVersion().equals(getNativeVersion())) return;
 
         channel.attr(VF_NETWORK_MANAGER).set(networkManager);
 
@@ -82,15 +77,6 @@ public class CommonViaForgePlus {
         channel.attr(LOCAL_VIA_USER).set(user);
 
         channel.pipeline().addLast(new ViaForgeVLLegacyPipeline(user, targetVersion));
-        channel.closeFuture().addListener(future -> {
-            if (previousVersion != null) {
-                restoreVersion();
-            }
-        });
-    }
-
-    public void sendConnectionDetails(final Channel channel) {
-        ConnectionDetails.sendConnectionDetails(channel.attr(LOCAL_VIA_USER).get(), ConnectionDetails.MOD_CHANNEL);
     }
 
     public void reorderCompression(final Channel channel) {
@@ -103,21 +89,6 @@ public class CommonViaForgePlus {
 
     public ProtocolVersion getTargetVersion() {
         return targetVersion;
-    }
-
-    public void restoreVersion() {
-        this.targetVersion = ProtocolVersion.getClosest(config.getClientSideVersion());
-    }
-
-    public void setTargetVersionSilent(final ProtocolVersion targetVersion) {
-        if (targetVersion == null) {
-            throw new IllegalArgumentException("Target version cannot be null");
-        }
-        final ProtocolVersion oldVersion = this.targetVersion;
-        this.targetVersion = targetVersion;
-        if (oldVersion != targetVersion) {
-            previousVersion = oldVersion;
-        }
     }
 
     public void setTargetVersion(final ProtocolVersion targetVersion) {
