@@ -1,14 +1,19 @@
 package net.aspw.viaforgeplus.mixin.impl;
 
+import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
+import net.aspw.viaforgeplus.common.CommonViaForgePlus;
 import net.aspw.viaforgeplus.screen.GuiProtocolSelectorScreen;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiDownloadTerrain;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiMultiplayer;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.network.play.client.C00PacketKeepAlive;
 import net.minecraft.realms.RealmsBridge;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -40,5 +45,11 @@ public abstract class GuiDownloadTerrainMixin extends GuiScreenMixin {
                 this.mc.displayGuiScreen(new GuiMultiplayer(new GuiMainMenu()));
             }
         }
+    }
+
+    @Override
+    protected void viaForgePlus$updateScreen(CallbackInfo ci) {
+        if (CommonViaForgePlus.getManager().getTargetVersion().newerThanOrEqualTo(ProtocolVersion.v1_12_2))
+            ci.cancel();
     }
 }

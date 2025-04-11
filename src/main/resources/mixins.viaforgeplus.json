@@ -29,7 +29,8 @@
     "NetworkManager_5Mixin",
     "NetworkManagerMixin",
     "ServerDataMixin",
-    "WorldMixin"
+    "WorldMixin",
+    "fix.Protocol1_20To1_20_2Mixin"
   ],
   "verbose": true
 }

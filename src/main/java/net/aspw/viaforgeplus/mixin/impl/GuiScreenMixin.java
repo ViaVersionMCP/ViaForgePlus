@@ -29,7 +29,16 @@ public abstract class GuiScreenMixin {
         this.viaForgePlus$actionPerformed(button);
     }
 
+    @Inject(method = "updateScreen", at = @At("RETURN"))
+    protected void injectUpdateScreen(CallbackInfo ci) {
+        this.viaForgePlus$updateScreen(ci);
+    }
+
     @Unique
     protected void viaForgePlus$actionPerformed(GuiButton button) {
+    }
+
+    @Unique
+    protected void viaForgePlus$updateScreen(CallbackInfo ci) {
     }
 }
