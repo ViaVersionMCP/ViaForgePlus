@@ -11,7 +11,7 @@ public class UpdatesChecker {
 
     public static void check() {
         try {
-            OldJVTLSPatcher tlsPatcher = new OldJVTLSPatcher();
+            OutdatedJavaTLSFixer tlsPatcher = new OutdatedJavaTLSFixer();
 
             tlsPatcher.patchTLS();
 
